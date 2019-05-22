@@ -63,6 +63,10 @@ class ApiController extends Controller
         return $this->setStatusCode(500)->respondWithError($message);
     }
 
+    /**
+     * @param $message
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function respondWithError($message)
     {
         return $this->respond([
@@ -70,6 +74,17 @@ class ApiController extends Controller
                 'message'     => $message,
                 'status_code' => $this->getStatusCode()
             ]
+        ]);
+    }
+
+    /**
+     * @param string $message
+     * @return mixed
+     */
+    public function respondCreated($message = 'Created Succesfully')
+    {
+        return $this->setStatusCode(201)->respond([
+            'message' => $message
         ]);
     }
 }

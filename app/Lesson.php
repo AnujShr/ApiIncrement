@@ -8,6 +8,6 @@ class Lesson extends Model
 {
     protected $fillable = ['title', 'body'];
 
-    protected $table = 'lessons';
+    protected $table  = 'lessons';
     protected $hidden = ['updated_at'];
 }

@@ -53,27 +53,27 @@ class LessonController extends ApiController
      */
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:title|max:255',
+            'title' => 'required|unique:lessons|max:255',
             'body'  => 'required',
         ]);
+
         $error = [];
         if ($validator->fails()) {
             foreach ($validator->messages()->getMessages() as $field => $message):
                 $error[$field] = $validator->errors()->first($field);
             endforeach;
+
             return $this->setStatusCode(422)->respondWithError('Parameters ' . implode(', ', array_keys($error)) . ' failed validation for a lesson');
         }
+        $lesson = new Lesson();
+        $lesson->title = $request->input('title');
+        $lesson->body = $request->input('body');
+        $lesson->some_bool = true;
+        $lesson->save();
 
-        Lesson::query()
-            ->create([
-                'title' => $request->input('title'),
-                'body'  => $request->input('body')
-            ]);
-
-        return $this->setStatusCode(201)->respond([
-            'message' => 'Lesson sucessfully create'
-        ]);
+        return $this->respondCreated('Lessons Created Succesfully');
 
     }
 
@@ -127,6 +127,7 @@ class LessonController extends ApiController
     {
         //
     }
+
 
 
 }
